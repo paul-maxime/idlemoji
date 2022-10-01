@@ -5,21 +5,43 @@ const game = reactive({
   isGameOver: false,
   respawnTimer: 10,
   player: {
-    gold: 0,
     speed: 10,
     attack: 10,
     currentMovement: 0,
   },
+  gold: 500,
   entities: [],
   battle: {
     isBattling: false,
     enemy: null,
   },
-  gold: 100,
   upgrades: [
-    { name: "More speed", cost: 100, level: 1 },
-    { name: "More damage", cost: 200, level: 2 },
+    {
+      name: "More speed",
+      cost: 100,
+      level: 1,
+      applyUpgrade: () => {
+        game.player.speed += 5;
+      },
+    },
+    {
+      name: "More damage",
+      cost: 100,
+      level: 1,
+      applyUpgrade: () => {
+        game.player.attack += 5;
+      },
+    },
   ],
+  buyUpgrade(upgrade) {
+    if (game.gold < upgrade.cost) {
+      return false;
+    }
+    game.gold -= upgrade.cost;
+    upgrade.level += 1;
+    upgrade.cost *= 2;
+    upgrade.applyUpgrade();
+  },
   tick() {
     if (this.entities.length === 1) {
       // We won!
@@ -41,7 +63,7 @@ const game = reactive({
       this.battle.enemy.health -= this.player.attack;
       if (this.battle.enemy.health <= 0) {
         this.battle.isBattling = false;
-        this.player.gold += this.battle.enemy.gold;
+        this.gold += this.battle.enemy.gold;
         const index = this.entities.findIndex((x) => x === this.battle.enemy);
         this.entities.splice(index, 1);
         this.battle.enemy = null;
