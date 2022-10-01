@@ -1,16 +1,8 @@
-<script>
-export default {
-  data() {
-    return {
-      count: twemoji.parse("⚔️🐔"),
-    };
-  },
-};
-</script>
+<script></script>
 
 <template>
   <div class="game-level">
-    <div v-html="count"></div>
+    <div v-emoji>⚔️🐔</div>
   </div>
 </template>
 
