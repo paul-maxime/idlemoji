@@ -4,7 +4,7 @@ import { ref, watch } from "vue";
 import twemoji from "twemoji";
 
 const levelString = ref("");
-watch(game, async (newGame) => {
+watch(game, (newGame) => {
   const entitieMax = newGame.entities.reduce((previousValue, currentValue) =>
     Math.max(previousValue.position, currentValue.position)
   );
