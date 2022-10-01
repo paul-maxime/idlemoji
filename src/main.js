@@ -6,8 +6,8 @@ import "./assets/main.css";
 
 const app = createApp(App);
 
-app.directive("emoji", (el) => {
-  el.innerHTML = twemoji.parse(el.innerHTML);
+app.directive("emoji", (el, bindings) => {
+  el.innerHTML = twemoji.parse(bindings.value);
 });
 
 app.mount("#app");

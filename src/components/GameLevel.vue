@@ -2,7 +2,7 @@
 
 <template>
   <div class="game-level">
-    <div v-emoji>⚔️🐔</div>
+    <div v-emoji="'⚔️🐔'"></div>
   </div>
 </template>
 
@@ -18,5 +18,11 @@
   border: 1px dashed black;
   flex-wrap: wrap;
   background-color: lightcoral;
+}
+img.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 0.05em 0 0.1em;
+  vertical-align: -0.1em;
 }
 </style>
