@@ -107,3 +107,8 @@ a,
     background-color: lightgreen;
   }
 }
+
+img.emoji {
+  height: 16px;
+  width: 16px;
+}
