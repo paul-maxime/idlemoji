@@ -17,13 +17,21 @@ watch(game, (newGame) => {
 
 <style scoped>
 .game-level {
-  width: 512px;
+  width: 1024px;
   margin: 0 auto;
   border: 1px dashed black;
-  background-color: lightcoral;
+  background-color: rgb(115, 199, 136);
   font-family: monospace;
   white-space: pre;
   font-size: 0;
-  letter-spacing: 24px;
+  letter-spacing: 48px;
+}
+</style>
+
+<style>
+img.emoji {
+  height: 48px;
+  width: 48px;
+  vertical-align: middle;
 }
 </style>
