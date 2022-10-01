@@ -1,28 +1,11 @@
 <script setup>
 import game from "@/stores/game.js";
 import { ref, watch } from "vue";
-import twemoji from "twemoji";
+import { updateLevel } from "@/components/game-level.js";
 
 const levelString = ref("");
 watch(game, (newGame) => {
-  const entitieMax = newGame.entities.reduce((previousValue, currentValue) =>
-    Math.max(previousValue.position, currentValue.position)
-  );
-  const entitiesMapped = new Map();
-  let levelStringToBuild = "";
-  for (const entitie of newGame.entities) {
-    entitiesMapped.set(entitie.position, entitie);
-  }
-
-  for (let i = 0; i <= entitieMax; i += 1) {
-    const entity = entitiesMapped.get(i);
-    if (entity != undefined) {
-      levelStringToBuild += twemoji.parse(entity.type);
-    } else {
-      levelStringToBuild += twemoji.parse(" ");
-    }
-  }
-  levelString.value = levelStringToBuild;
+  levelString.value = updateLevel(newGame);
 });
 </script>
 
