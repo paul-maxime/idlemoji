@@ -1,9 +1,10 @@
 import { reactive } from "vue";
+import logger from "./logger";
 
 const game = reactive({
   remainingTime: 100,
   isGameOver: false,
-  respawnTimer: 10,
+  respawnTimer: 0,
   player: {
     speed: 10,
     attack: 10,
@@ -62,6 +63,7 @@ const game = reactive({
     if (this.battle.isBattling) {
       this.battle.enemy.health -= this.player.attack;
       if (this.battle.enemy.health <= 0) {
+        logger.emit("enemy-defeated", this.battle.enemy);
         this.battle.isBattling = false;
         this.gold += this.battle.enemy.gold;
         const index = this.entities.findIndex((x) => x === this.battle.enemy);
@@ -78,13 +80,15 @@ const game = reactive({
   },
   gameOver() {
     this.isGameOver = true;
-    this.respawnTimer = 10;
+    this.respawnTimer = 20;
+    logger.emit("game-over");
   },
   respawn() {
     this.isGameOver = false;
     this.remainingTime = 100;
     this.battle.isBattling = false;
     this.initEntities();
+    logger.emit("start");
   },
   movePlayer() {
     this.entities[0].position += 1;
@@ -92,15 +96,16 @@ const game = reactive({
       this.battle.isBattling = true;
       this.player.currentMovement = 0;
       this.battle.enemy = this.entities[1];
+      logger.emit("enemy-encountered", this.battle.enemy);
     }
   },
   initEntities() {
     this.entities.splice(0, this.entities.length);
     this.entities.push(
       { type: "⚔", position: 0 },
-      { type: "🐔", position: 5, health: 300, gold: 5 },
-      { type: "🦧", position: 10, health: 1000, gold: 20 },
-      { type: "🐉", position: 20, health: 50000, gold: 0 }
+      { type: "🐔", name: "a chicken", position: 5, health: 300, gold: 5 },
+      { type: "🦧", name: "an orangutan", position: 10, health: 1000, gold: 20 },
+      { type: "🐉", name: "the dragon", position: 20, health: 50000, gold: 0 }
     );
   },
 });
