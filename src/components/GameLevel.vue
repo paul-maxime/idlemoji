@@ -1,26 +1,23 @@
-<script></script>
+<script setup>
+import game from "@/stores/game.js";
+</script>
 
 <template>
   <div class="game-level">
     <div v-emoji="'⚔️➖➖➖➖➖🐔\n⚔️     🐔'"></div>
   </div>
+  <pre>{{ game }}</pre>
 </template>
 
 <style scoped>
-* {
-  box-sizing: border-box;
-}
 .game-level {
-  top: 0;
-  left: 0;
-  padding: 10px;
-  flex: 0 0 100%;
+  width: 512px;
+  margin: 0 auto;
   border: 1px dashed black;
-  flex-wrap: wrap;
   background-color: lightcoral;
   font-family: monospace;
   white-space: pre;
   font-size: 0;
-  letter-spacing: 16px;
+  letter-spacing: 24px;
 }
 </style>
