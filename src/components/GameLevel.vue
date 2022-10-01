@@ -2,6 +2,7 @@
 import game from "@/stores/game.js";
 import { ref, watch } from "vue";
 import { updateLevel } from "@/components/game-level.js";
+import RemainingTime from "./RemainingTime.vue";
 
 const levelString = ref("");
 watch(game, (newGame) => {
@@ -10,6 +11,7 @@ watch(game, (newGame) => {
 </script>
 
 <template>
+  <RemainingTime />
   <div class="game-level">
     <div v-html="levelString"></div>
   </div>
