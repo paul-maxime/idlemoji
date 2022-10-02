@@ -1,4 +1,5 @@
 <script setup>
+import game from "@/stores/game.js";
 import unlocks from "@/stores/unlocks.js";
 import UnlockButton from "./components/UnlockButton.vue";
 import GameLevel from "./components/GameLevel.vue";
@@ -15,12 +16,12 @@ usePageTitle();
 <template>
   <main class="main">
     <UnlockButton />
-    <div class="panel">
+    <div class="panel" v-if="!game.isInterfaceHidden">
       <GoldAmount v-if="unlocks.has('gold-display')" />
       <RemainingTime v-if="unlocks.has('remaining-time')" />
     </div>
-    <GameLevel v-if="unlocks.has('level-gui')" />
-    <div class="panel">
+    <GameLevel v-if="unlocks.has('level-gui') && !game.isInterfaceHidden" />
+    <div class="panel" v-if="!game.isInterfaceHidden">
       <EnemyInfos v-if="unlocks.has('battle-info')" />
       <PlayerStats v-if="unlocks.has('hero-stats')" />
     </div>

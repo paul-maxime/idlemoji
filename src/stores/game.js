@@ -5,8 +5,11 @@ import logger from "./logger.js";
 const game = reactive({
   currentRun: 0,
   remainingTime: 100,
+  isGameWon: false,
   isGameOver: false,
+  isInterfaceHidden: false,
   respawnTimer: 0,
+  difficulty: 0,
   player: {
     attack: 10,
     attackSpeed: 10,
@@ -25,7 +28,6 @@ const game = reactive({
     {
       name: "Strength",
       level: 1,
-      maxLevel: null,
       upgradeCost: 10,
       description: () => `${game.player.attack} damage per hit`,
       apply() {
@@ -70,20 +72,10 @@ const game = reactive({
     this.unlocks.unlock(feature.id);
   },
   tick() {
-    if (this.entities.length === 1) {
-      // We won!
+    if (this.handleGameSuccess()) {
       return;
     }
-    if (this.isGameOver) {
-      this.respawnTimer -= 1;
-      if (this.respawnTimer <= 0) {
-        this.respawn();
-      }
-      return;
-    }
-    this.remainingTime -= 1;
-    if (this.remainingTime <= 0) {
-      this.gameOver();
+    if (this.handleGameOver()) {
       return;
     }
     if (this.battle.isBattling) {
@@ -100,6 +92,46 @@ const game = reactive({
       this.movePlayer();
     }
   },
+  handleGameSuccess() {
+    if (this.isGameWon) {
+      this.respawnTimer -= 1;
+      if (this.respawnTimer === 80) {
+        logger.emit("game-won", game.currentRun);
+        this.isInterfaceHidden = true;
+      }
+      if (this.respawnTimer === 60) {
+        this.difficulty += 1;
+        logger.emit("increase-difficulty", this.difficulty);
+      }
+      if (this.respawnTimer <= 0) {
+        this.isInterfaceHidden = false;
+        this.isGameWon = false;
+        this.respawn();
+      }
+      return true;
+    }
+    if (this.entities.length === 1) {
+      this.isGameWon = true;
+      this.respawnTimer = 100;
+      return true;
+    }
+    return false;
+  },
+  handleGameOver() {
+    if (this.isGameOver) {
+      this.respawnTimer -= 1;
+      if (this.respawnTimer <= 0) {
+        this.respawn();
+      }
+      return true;
+    }
+    this.remainingTime -= 1;
+    if (this.remainingTime <= 0) {
+      this.gameOver();
+      return true;
+    }
+    return false;
+  },
   gameOver() {
     this.isGameOver = true;
     this.respawnTimer = 20;
@@ -110,7 +142,7 @@ const game = reactive({
     this.isGameOver = false;
     this.remainingTime = 100;
     this.battle.isBattling = false;
-    this.initEntities();
+    this.initEntities(this.difficulty);
     logger.emit("game-start", this.currentRun);
   },
   movePlayer() {
@@ -134,16 +166,49 @@ const game = reactive({
       this.battle.enemy = null;
     }
   },
-  initEntities() {
+  initEntities(difficulty) {
     this.entities.splice(0, this.entities.length);
     this.entities.push(
       { type: "⚔", position: 0 },
-      { type: "🐁", name: "a mouse", position: 3, health: 25, gold: 5 },
-      { type: "🐔", name: "a chicken", position: 5, health: 60, gold: 10 },
-      { type: "🦧", name: "an orangutan", position: 9, health: 200, gold: 20 },
-      { type: "⛄", name: "a snowman", position: 15, health: 1500, gold: 50 },
-      { type: "🐉", name: "the dragon", position: 20, health: 5000, gold: 1000 }
+      {
+        type: "🐁",
+        name: "a mouse",
+        position: 2,
+        maxHealth: Math.floor(25 * (difficulty * 10 + 1)),
+        gold: 5 * (difficulty + 1),
+      },
+      {
+        type: "🐔",
+        name: "a chicken",
+        position: 5,
+        maxHealth: Math.floor(60 * (difficulty * 11 + 1)),
+        gold: 10 * (difficulty + 1),
+      },
+      {
+        type: "🦧",
+        name: "an orangutan",
+        position: 9,
+        maxHealth: Math.floor(200 * (difficulty * 12 + 1)),
+        gold: 20 * (difficulty + 1),
+      },
+      {
+        type: "⛄",
+        name: "a snowman",
+        position: 15,
+        maxHealth: Math.floor(1500 * (difficulty * 13 + 1)),
+        gold: 50 * (difficulty + 1),
+      },
+      {
+        type: "🐉",
+        name: "the dragon",
+        position: 20,
+        maxHealth: Math.floor(5000 * (difficulty * 14 + 1)),
+        gold: 1000 * (difficulty + 1),
+      }
     );
+    for (const entity of this.entities) {
+      entity.health = entity.maxHealth;
+    }
   },
 });
 
