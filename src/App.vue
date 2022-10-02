@@ -14,7 +14,6 @@ usePageTitle();
 
 <template>
   <main class="main">
-    <PageTitle />
     <UnlockButton />
     <div class="panel">
       <GoldAmount v-if="unlocks.has('gold-display')" />
