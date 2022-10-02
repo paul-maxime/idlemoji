@@ -10,3 +10,5 @@ watch(game, () => {
   }
 });
 </script>
+
+<template></template>
