@@ -18,7 +18,7 @@ watch(game, (newGame) => {
 <style scoped>
 .game-level {
   width: 1024px;
-  margin: 0 auto;
+  margin: 6px auto;
   border: 1px dashed black;
   background-color: rgb(115, 199, 136);
   font-family: monospace;
@@ -29,7 +29,7 @@ watch(game, (newGame) => {
 </style>
 
 <style>
-img.emoji {
+img.level-emoji {
   height: 48px;
   width: 48px;
   vertical-align: middle;

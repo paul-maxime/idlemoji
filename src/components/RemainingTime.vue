@@ -16,20 +16,18 @@ watch(game, () => {
 </script>
 
 <template>
-  <div class="timer">
+  <div>
     <span v-emoji="moon"></span>
-    <small>{{ timer }}</small>
+    <span class="timer-text">{{ timer }}</span>
   </div>
 </template>
 
 <style scoped>
-.timer {
-  text-align: center;
+div {
+  font-size: 2em;
   font-family: monospace;
-  font-size: 22px;
-  margin-bottom: 6px;
 }
-.timer small {
-  margin-left: 6px;
+span {
+  margin-right: 6px;
 }
 </style>

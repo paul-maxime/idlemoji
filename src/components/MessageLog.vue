@@ -18,11 +18,11 @@ function opacityFromIndex(index) {
 }
 
 const handlers = {
-  "game-start": (currentRun) => add(`Simulation ${currentRun} begins. The dragon will attack in 10 seconds.`),
+  "game-start": (currentRun) => add(`Simulation ${currentRun} begins. The dragon will fire in 10 seconds.`),
   "game-over": () => add("Simulation failed. Trying again."),
   "enemy-encountered": (entity) => add(`You encountered ${entity.name}!`),
   "enemy-defeated": (entity) => add(`You defeated ${entity.name} and got ${entity.gold} gold.`),
-  "stat-upgraded": (stat) => add(`Upgraded ${stat.name.toLowerCase()} to level ${stat.level}.`),
+  "stat-upgraded": (stat) => add(`Upgraded ${stat.name.toLowerCase()} to rank ${stat.level}.`),
 };
 
 logger.register((message, params) => {

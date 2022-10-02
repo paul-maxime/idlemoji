@@ -1,27 +1,27 @@
 import twemoji from "twemoji";
 
-export function updateLevel(newGame) {
-  const entitieMax = newGame.entities.reduce(
+export function updateLevel(game) {
+  const entityMax = game.entities.reduce(
     (previousValue, currentValue) => Math.max(previousValue, currentValue.position),
     0
   );
   const entitiesMapped = new Map();
   let levelStringToBuild = "";
-  for (const entitie of newGame.entities) {
-    entitiesMapped.set(entitie.position, entitie);
+  for (const entity of game.entities) {
+    entitiesMapped.set(entity.position, entity);
   }
 
-  for (let i = 0; i <= entitieMax; i += 1) {
+  for (let i = 0; i <= entityMax; i += 1) {
     const entity = entitiesMapped.get(i);
-    if (newGame.isGameOver && entity?.type !== "🐉") {
-      levelStringToBuild += twemoji.parse("🔥");
+    if (game.isGameOver && entity?.type !== "🐉") {
+      levelStringToBuild += "🔥";
       continue;
     }
-    if (entity != undefined) {
-      levelStringToBuild += twemoji.parse(entity.type);
+    if (entity) {
+      levelStringToBuild += entity.type;
     } else {
-      levelStringToBuild += twemoji.parse(" ");
+      levelStringToBuild += " ";
     }
   }
-  return levelStringToBuild;
+  return twemoji.parse(levelStringToBuild, { className: "level-emoji" });
 }

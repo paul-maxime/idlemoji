@@ -1,4 +1,5 @@
 import { reactive } from "vue";
+import unlocks from "./unlocks.js";
 import logger from "./logger.js";
 
 const game = reactive({
@@ -19,6 +20,7 @@ const game = reactive({
     isBattling: false,
     enemy: null,
   },
+  unlocks: unlocks,
   stats: [
     {
       name: "Strength",
@@ -50,15 +52,21 @@ const game = reactive({
     },
   ],
   upgradeStat(stat) {
-    if (game.gold < stat.upgradeCost) {
-      return false;
+    if (this.gold < stat.upgradeCost) {
+      return;
     }
-    game.gold -= stat.upgradeCost;
+    this.gold -= stat.upgradeCost;
     stat.level += 1;
     stat.upgradeCost = stat.level * 10;
     logger.emit("stat-upgraded", stat);
     stat.apply();
-    return true;
+  },
+  unlockFeature(feature) {
+    if (this.gold < feature.cost) {
+      return;
+    }
+    this.gold -= feature.cost;
+    this.unlocks.unlock(feature.id);
   },
   tick() {
     if (this.entities.length === 1) {
@@ -109,6 +117,7 @@ const game = reactive({
     if (this.entities[0].position + 1 === this.entities[1].position) {
       this.battle.isBattling = true;
       this.player.currentMovement = 0;
+      this.player.currentAttack = 0;
       this.battle.enemy = this.entities[1];
       logger.emit("enemy-encountered", this.battle.enemy);
     }
@@ -128,8 +137,9 @@ const game = reactive({
     this.entities.splice(0, this.entities.length);
     this.entities.push(
       { type: "⚔", position: 0 },
-      { type: "🐔", name: "a chicken", position: 4, health: 35, gold: 5 },
-      { type: "🦧", name: "an orangutan", position: 8, health: 200, gold: 20 },
+      { type: "🐁", name: "a mouse", position: 3, health: 25, gold: 5 },
+      { type: "🐔", name: "a chicken", position: 5, health: 60, gold: 10 },
+      { type: "🦧", name: "an orangutan", position: 9, health: 200, gold: 20 },
       { type: "⛄", name: "a snowman", position: 15, health: 1500, gold: 50 },
       { type: "🐉", name: "the dragon", position: 20, health: 5000, gold: 1000 }
     );

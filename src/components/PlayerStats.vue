@@ -8,14 +8,13 @@ function canUpgrade(stat) {
 </script>
 
 <template>
-  <div v-if="game.currentRun >= 3">
-    <h2>Hero stats</h2>
+  <div>
     <table>
       <tr v-for="stat of game.stats" :key="stat.name">
         <td style="text-align: center">
           <strong>{{ stat.name }} {{ romans.romanize(stat.level) }}</strong>
-          <br />
-          <small>({{ stat.description() }})</small>
+          <br v-if="game.unlocks.has('hero-stats-details')" />
+          <small v-if="game.unlocks.has('hero-stats-details')">({{ stat.description() }})</small>
         </td>
         <td>
           <button :disabled="!canUpgrade(stat)" @click="game.upgradeStat(stat)">
@@ -32,10 +31,5 @@ div {
   display: inline-block;
   border: 1px solid black;
   margin: 8px 0;
-}
-h2 {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 6px;
 }
 </style>
