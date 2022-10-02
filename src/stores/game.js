@@ -25,6 +25,7 @@ const game = reactive({
     {
       name: "Strength",
       level: 1,
+      maxLevel: null,
       upgradeCost: 10,
       description: () => `${game.player.attack} damage per hit`,
       apply() {
@@ -87,14 +88,14 @@ const game = reactive({
     }
     if (this.battle.isBattling) {
       this.player.currentAttack += this.player.attackSpeed;
-      if (this.player.currentAttack >= 100) {
+      while (this.battle.isBattling && this.player.currentAttack >= 100) {
         this.player.currentAttack -= 100;
         this.attackEnemy();
       }
       return;
     }
     this.player.currentMovement += this.player.movementSpeed;
-    if (this.player.currentMovement >= 100) {
+    while (this.player.currentMovement >= 100 && !this.battle.isBattling) {
       this.player.currentMovement -= 100;
       this.movePlayer();
     }

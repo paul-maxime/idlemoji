@@ -45,6 +45,7 @@ watch(game, (newGame) => {
 .enemy-infos {
   display: flex;
   align-items: center;
+  font-family: monospace;
 }
 
 .infos-type {
