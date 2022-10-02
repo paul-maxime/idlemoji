@@ -3,7 +3,7 @@ import unlocks from "./unlocks.js";
 import logger from "./logger.js";
 
 const game = reactive({
-  currentRun: 0,
+  currentRun: 10,
   remainingTime: 100,
   isGameWon: false,
   isGameOver: false,
@@ -16,8 +16,9 @@ const game = reactive({
     movementSpeed: 10,
     currentMovement: 0,
     currentAttack: 0,
+    goldBonus: 0,
   },
-  gold: 0,
+  gold: 1000,
   entities: [],
   battle: {
     isBattling: false,
@@ -51,6 +52,15 @@ const game = reactive({
       description: () => `${game.player.attackSpeed / 10} attack${game.player.attackSpeed >= 20 ? "s" : ""} per second`,
       apply() {
         game.player.attackSpeed = 5 + this.level * 5;
+      },
+    },
+    {
+      name: "Luck",
+      level: 1,
+      upgradeCost: 10,
+      description: () => `${game.player.goldBonus}% more gold`,
+      apply() {
+        game.player.goldBonus = (this.level - 1) * 10;
       },
     },
   ],
@@ -158,6 +168,7 @@ const game = reactive({
   attackEnemy() {
     this.battle.enemy.health -= this.player.attack;
     if (this.battle.enemy.health <= 0) {
+      this.battle.enemy.gold = Math.ceil(this.battle.enemy.gold * (1 + this.player.goldBonus / 100));
       logger.emit("enemy-defeated", this.battle.enemy);
       this.battle.isBattling = false;
       this.gold += this.battle.enemy.gold;
