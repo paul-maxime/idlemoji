@@ -7,7 +7,9 @@ import RemainingTime from "./components/RemainingTime.vue";
 import EnemyInfos from "./components/EnemyInfos.vue";
 import PlayerStats from "./components/PlayerStats.vue";
 import GoldAmount from "./components/GoldAmount.vue";
-import PageTitle from "./components/PageTitle.vue";
+import { usePageTitle } from "./components/page-title.js";
+
+usePageTitle();
 </script>
 
 <template>
