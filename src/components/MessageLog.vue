@@ -4,33 +4,37 @@ import logger from "@/stores/logger.js";
 
 const messages = ref([]);
 
-function clear() {
-  messages.value = [];
-}
-
 function add(text) {
   messages.value.unshift(text);
+  while (messages.value.length > 8) {
+    messages.value.pop();
+  }
+}
+
+function opacityFromIndex(index) {
+  if (index <= 2) return 1;
+  if (index > 8) return 0;
+  return 1 - (index - 2) * 0.2;
 }
 
 const handlers = {
-  start: () => {
-    clear();
-    add("A new day begins. The dragon will destroy the castle in 10 seconds.");
-  },
-  "game-over": () => add("Too late, you lost. Trying again."),
+  "game-start": (currentRun) => add(`Simulation ${currentRun} begins. The dragon will attack in 10 seconds.`),
+  "game-over": () => add("Simulation failed. Trying again."),
   "enemy-encountered": (entity) => add(`You encountered ${entity.name}!`),
   "enemy-defeated": (entity) => add(`You defeated ${entity.name} and got ${entity.gold} gold.`),
+  "stat-upgraded": (stat) => add(`Upgraded ${stat.name.toLowerCase()} to level ${stat.level}.`),
 };
 
 logger.register((message, params) => {
-  console.log(message, params);
   if (handlers[message]) handlers[message](params);
 });
 </script>
 
 <template>
   <div class="messages">
-    <p v-for="message of messages" :key="message">{{ message }}</p>
+    <p v-for="(message, index) in messages" :key="index" v-bind:style="{ opacity: opacityFromIndex(index) }">
+      {{ message }}
+    </p>
   </div>
 </template>
 

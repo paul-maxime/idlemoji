@@ -56,6 +56,7 @@ const game = reactive({
     game.gold -= stat.upgradeCost;
     stat.level += 1;
     stat.upgradeCost = stat.level * 10;
+    logger.emit("stat-upgraded", stat);
     stat.apply();
     return true;
   },
@@ -101,7 +102,7 @@ const game = reactive({
     this.remainingTime = 100;
     this.battle.isBattling = false;
     this.initEntities();
-    logger.emit("start");
+    logger.emit("game-start", this.currentRun);
   },
   movePlayer() {
     this.entities[0].position += 1;

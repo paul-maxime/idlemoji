@@ -30,8 +30,8 @@ function canUpgrade(stat) {
 <style scoped>
 div {
   display: inline-block;
-  margin: 8px auto;
   border: 1px solid black;
+  margin: 8px 0;
 }
 h2 {
   text-align: center;
