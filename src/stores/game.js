@@ -1,47 +1,63 @@
 import { reactive } from "vue";
-import logger from "./logger";
+import logger from "./logger.js";
 
 const game = reactive({
+  currentRun: 0,
   remainingTime: 100,
   isGameOver: false,
   respawnTimer: 0,
   player: {
-    speed: 10,
     attack: 10,
+    attackSpeed: 10,
+    movementSpeed: 10,
     currentMovement: 0,
+    currentAttack: 0,
   },
-  gold: 500,
+  gold: 0,
   entities: [],
   battle: {
     isBattling: false,
     enemy: null,
   },
-  upgrades: [
+  stats: [
     {
-      name: "More speed",
-      cost: 100,
+      name: "Strength",
       level: 1,
-      applyUpgrade: () => {
-        game.player.speed += 5;
+      upgradeCost: 10,
+      description: () => `${game.player.attack} damage per hit`,
+      apply() {
+        game.player.attack = 9 + this.level * this.level;
       },
     },
     {
-      name: "More damage",
-      cost: 100,
+      name: "Speed",
       level: 1,
-      applyUpgrade: () => {
-        game.player.attack += 5;
+      upgradeCost: 10,
+      description: () =>
+        `${game.player.movementSpeed / 10} cell${game.player.movementSpeed >= 20 ? "s" : ""} per second`,
+      apply() {
+        game.player.movementSpeed = 5 + this.level * 5;
+      },
+    },
+    {
+      name: "Velocity",
+      level: 1,
+      upgradeCost: 10,
+      description: () => `${game.player.attackSpeed / 10} attack${game.player.attackSpeed >= 20 ? "s" : ""} per second`,
+      apply() {
+        game.player.attackSpeed = 5 + this.level * 5;
       },
     },
   ],
-  buyUpgrade(upgrade) {
-    if (game.gold < upgrade.cost) {
+  upgradeStat(stat) {
+    if (game.gold < stat.upgradeCost) {
       return false;
     }
-    game.gold -= upgrade.cost;
-    upgrade.level += 1;
-    upgrade.cost *= 2;
-    upgrade.applyUpgrade();
+    game.gold -= stat.upgradeCost;
+    stat.level += 1;
+    stat.upgradeCost = stat.level * 10;
+    stat.apply();
+    return true;
   },
   tick() {
     if (this.entities.length === 1) {
@@ -61,18 +77,14 @@ const game = reactive({
       return;
     }
     if (this.battle.isBattling) {
-      this.battle.enemy.health -= this.player.attack;
-      if (this.battle.enemy.health <= 0) {
-        logger.emit("enemy-defeated", this.battle.enemy);
-        this.battle.isBattling = false;
-        this.gold += this.battle.enemy.gold;
-        const index = this.entities.findIndex((x) => x === this.battle.enemy);
-        this.entities.splice(index, 1);
-        this.battle.enemy = null;
+      this.player.currentAttack += this.player.attackSpeed;
+      if (this.player.currentAttack >= 100) {
+        this.player.currentAttack -= 100;
+        this.attackEnemy();
       }
       return;
     }
-    this.player.currentMovement += this.player.speed;
+    this.player.currentMovement += this.player.movementSpeed;
     if (this.player.currentMovement >= 100) {
       this.player.currentMovement -= 100;
       this.movePlayer();
@@ -84,6 +96,7 @@ const game = reactive({
     logger.emit("game-over");
   },
   respawn() {
+    this.currentRun += 1;
     this.isGameOver = false;
     this.remainingTime = 100;
     this.battle.isBattling = false;
@@ -99,13 +112,25 @@ const game = reactive({
       logger.emit("enemy-encountered", this.battle.enemy);
     }
   },
+  attackEnemy() {
+    this.battle.enemy.health -= this.player.attack;
+    if (this.battle.enemy.health <= 0) {
+      logger.emit("enemy-defeated", this.battle.enemy);
+      this.battle.isBattling = false;
+      this.gold += this.battle.enemy.gold;
+      const index = this.entities.findIndex((x) => x === this.battle.enemy);
+      this.entities.splice(index, 1);
+      this.battle.enemy = null;
+    }
+  },
   initEntities() {
     this.entities.splice(0, this.entities.length);
     this.entities.push(
       { type: "⚔", position: 0 },
-      { type: "🐔", name: "a chicken", position: 5, health: 300, gold: 5 },
-      { type: "🦧", name: "an orangutan", position: 10, health: 1000, gold: 20 },
-      { type: "🐉", name: "the dragon", position: 20, health: 50000, gold: 0 }
+      { type: "🐔", name: "a chicken", position: 4, health: 35, gold: 5 },
+      { type: "🦧", name: "an orangutan", position: 8, health: 200, gold: 20 },
+      { type: "⛄", name: "a snowman", position: 15, health: 1500, gold: 50 },
+      { type: "🐉", name: "the dragon", position: 20, health: 5000, gold: 1000 }
     );
   },
 });

@@ -18,7 +18,7 @@ const handlers = {
     add("A new day begins. The dragon will destroy the castle in 10 seconds.");
   },
   "game-over": () => add("Too late, you lost. Trying again."),
-  "enemy-encountered": (entity) => add(`You encountered ${entity.name}.`),
+  "enemy-encountered": (entity) => add(`You encountered ${entity.name}!`),
   "enemy-defeated": (entity) => add(`You defeated ${entity.name} and got ${entity.gold} gold.`),
 };
 
@@ -36,7 +36,6 @@ logger.register((message, params) => {
 
 <style scoped>
 .messages {
-  margin-top: 6px;
   text-align: center;
 }
 p {
