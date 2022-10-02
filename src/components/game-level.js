@@ -5,7 +5,6 @@ export function updateLevel(newGame) {
     (previousValue, currentValue) => Math.max(previousValue, currentValue.position),
     0
   );
-  console.log(entitieMax);
   const entitiesMapped = new Map();
   let levelStringToBuild = "";
   for (const entitie of newGame.entities) {
@@ -14,6 +13,10 @@ export function updateLevel(newGame) {
 
   for (let i = 0; i <= entitieMax; i += 1) {
     const entity = entitiesMapped.get(i);
+    if (newGame.isGameOver && entity?.type !== "🐉") {
+      levelStringToBuild += twemoji.parse("🔥");
+      continue;
+    }
     if (entity != undefined) {
       levelStringToBuild += twemoji.parse(entity.type);
     } else {
