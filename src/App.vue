@@ -1,4 +1,5 @@
 <script setup>
+import unlocks from "@/stores/unlocks.js";
 import UnlockButton from "./components/UnlockButton.vue";
 import GameLevel from "./components/GameLevel.vue";
 import MessageLog from "./components/MessageLog.vue";
@@ -6,18 +7,19 @@ import RemainingTime from "./components/RemainingTime.vue";
 import EnemyInfos from "./components/EnemyInfos.vue";
 import PlayerStats from "./components/PlayerStats.vue";
 import GoldAmount from "./components/GoldAmount.vue";
-import unlocks from "@/stores/unlocks.js";
+import PageTitle from "./components/PageTitle.vue";
 </script>
 
 <template>
   <main class="main">
+    <PageTitle />
     <UnlockButton />
-    <div style="display: flex; justify-content: center" v-if="unlocks.has('gold-display')">
-      <GoldAmount />
+    <div class="panel">
+      <GoldAmount v-if="unlocks.has('gold-display')" />
       <RemainingTime v-if="unlocks.has('remaining-time')" />
     </div>
     <GameLevel v-if="unlocks.has('level-gui')" />
-    <div class="bottom-panel">
+    <div class="panel">
       <EnemyInfos v-if="unlocks.has('battle-info')" />
       <PlayerStats v-if="unlocks.has('hero-stats')" />
     </div>
@@ -27,7 +29,7 @@ import unlocks from "@/stores/unlocks.js";
 </template>
 
 <style scoped>
-.bottom-panel {
+.panel {
   display: flex;
   justify-content: center;
 }
