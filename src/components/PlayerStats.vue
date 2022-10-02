@@ -28,7 +28,8 @@ function canUpgrade(stat) {
 
 <style scoped>
 div {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   border: 1px solid black;
   margin: 8px 0;
 }

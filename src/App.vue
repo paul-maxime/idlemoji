@@ -16,15 +16,22 @@ import unlocks from "@/stores/unlocks.js";
       <GoldAmount />
       <RemainingTime v-if="unlocks.has('remaining-time')" />
     </div>
-    <EnemyInfos v-if="unlocks.has('battle-info')" />
     <GameLevel v-if="unlocks.has('level-gui')" />
-    <div style="display: flex; justify-content: center" v-if="unlocks.has('hero-stats')">
-      <PlayerStats />
+    <div class="bottom-panel">
+      <EnemyInfos v-if="unlocks.has('battle-info')" />
+      <PlayerStats v-if="unlocks.has('hero-stats')" />
     </div>
     <MessageLog />
     <!-- <DebugGameStore /> -->
   </main>
 </template>
+
+<style scoped>
+.bottom-panel {
+  display: flex;
+  justify-content: center;
+}
+</style>
 
 <style>
 body {

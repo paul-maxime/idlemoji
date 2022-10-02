@@ -3,24 +3,30 @@ import game from "@/stores/game.js";
 import { ref, watch } from "vue";
 import twemoji from "twemoji";
 
-function twemojit(text) {
+function twemojitType(text) {
   return twemoji.parse(text, {
-    className: "info-twemoji",
+    className: "info-twemoji-type",
   });
 }
 
-const action = ref(twemojit("👞"));
-const enemy = ref(twemojit(""));
-const health = ref(twemojit(""));
+function twemojitText(text) {
+  return twemoji.parse(text, {
+    className: "info-twemoji-text",
+  });
+}
+
+const action = ref(twemojitType("👞"));
+const enemy = ref(twemojitText(""));
+const health = ref(twemojitText(""));
 watch(game, (newGame) => {
   if (newGame.battle.isBattling === true) {
-    action.value = twemojit("⚔️");
-    enemy.value = twemojit(newGame.battle.enemy.type);
-    health.value = twemojit("💗 " + newGame.battle.enemy.health);
+    action.value = twemojitType("⚔️");
+    enemy.value = twemojitText(newGame.battle.enemy.type);
+    health.value = twemojitText("💗 " + newGame.battle.enemy.health);
   } else {
-    action.value = twemojit("👞");
-    enemy.value = twemojit("");
-    health.value = twemojit("");
+    action.value = twemojitType("👞");
+    enemy.value = twemojitText("");
+    health.value = twemojitText("");
   }
 });
 </script>
@@ -37,30 +43,35 @@ watch(game, (newGame) => {
 
 <style scoped>
 .enemy-infos {
-  height: 300px;
-  text-align: center;
+  display: flex;
+  align-items: center;
 }
 
 .infos-type {
-  width: 100px;
   display: inline-block;
   text-align: center;
-  padding: 100px 0;
+  padding: 0px 10px;
 }
 
 .infos-text {
-  width: 500px;
+  width: 100px;
   display: inline-block;
-  padding: 50px 100px;
+  padding: 0px 10px;
   text-align: left;
-  font-size: 50px;
+  font-size: 24px;
 }
 </style>
 
 <style>
-.info-twemoji {
-  height: 56px;
-  width: 56px;
+.info-twemoji-type {
+  height: 48px;
+  width: 48px;
+  vertical-align: -0.2em;
+}
+
+.info-twemoji-text {
+  height: 24px;
+  width: 24px;
   vertical-align: -0.2em;
 }
 </style>
