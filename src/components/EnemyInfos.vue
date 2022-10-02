@@ -2,6 +2,7 @@
 import game from "@/stores/game.js";
 import { ref, watch } from "vue";
 import twemoji from "twemoji";
+import ProgressBar from "./ProgressBar.vue";
 
 function twemojitType(text) {
   return twemoji.parse(text, {
@@ -16,17 +17,23 @@ function twemojitText(text) {
 }
 
 const action = ref(twemojitType("👞"));
-const enemy = ref(twemojitText(""));
-const health = ref(twemojitText(""));
+const enemy = ref("");
+const health = ref("");
+const healthValue = ref(0);
+const maxHealthValue = ref(0);
 watch(game, (newGame) => {
   if (newGame.battle.isBattling === true) {
     action.value = twemojitType("⚔️");
     enemy.value = twemojitText(newGame.battle.enemy.type);
-    health.value = twemojitText("💗 " + newGame.battle.enemy.health);
+    health.value = twemojitText("💗 ");
+    healthValue.value = newGame.battle.enemy.health;
+    maxHealthValue.value = newGame.battle.enemy.maxHealth;
   } else {
     action.value = twemojitType("👞");
-    enemy.value = twemojitText("");
-    health.value = twemojitText("");
+    enemy.value = "";
+    health.value = "";
+    healthValue.value = 0;
+    maxHealthValue.value = 0;
   }
 });
 </script>
@@ -35,8 +42,13 @@ watch(game, (newGame) => {
   <div class="enemy-infos">
     <div class="infos-type" v-html="action"></div>
     <div class="infos-text">
-      <div v-html="enemy"></div>
-      <div v-html="health"></div>
+      <div v-if="enemy">
+        <div v-html="enemy"></div>
+        <div class="health">
+          <div v-html="health"></div>
+          <ProgressBar :current-value="healthValue" :max-value="maxHealthValue" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -60,6 +72,15 @@ watch(game, (newGame) => {
   padding: 0px 10px;
   text-align: left;
   font-size: 24px;
+}
+
+.health {
+  display: flex;
+  align-items: center;
+}
+
+.health > div {
+  margin: 5px;
 }
 </style>
 
