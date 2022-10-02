@@ -147,8 +147,20 @@ const game = reactive({
 });
 
 game.respawn();
+
+let lastUpdate = Date.now();
+let pendingMilliseconds = 0;
 setInterval(() => {
-  game.tick();
+  const now = Date.now();
+  let delta = now - lastUpdate;
+  lastUpdate = now;
+  if (delta < 0) delta = 0;
+  if (delta > 5000) delta = 5000;
+  pendingMilliseconds += delta;
+  while (pendingMilliseconds > 100) {
+    game.tick();
+    pendingMilliseconds -= 100;
+  }
 }, 100);
 
 export default game;
