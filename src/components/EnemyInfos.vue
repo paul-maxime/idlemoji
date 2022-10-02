@@ -55,7 +55,7 @@ watch(game, (newGame) => {
 }
 
 .infos-text {
-  width: 100px;
+  width: 150px;
   display: inline-block;
   padding: 0px 10px;
   text-align: left;
