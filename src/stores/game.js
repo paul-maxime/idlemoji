@@ -5,7 +5,7 @@ import logger from "./logger.js";
 import areas from "./areas.js";
 
 const game = reactive({
-  currentRun: 10,
+  currentRun: 0,
   remainingTime: 100,
   isGameWon: false,
   isGameOver: false,
