@@ -61,4 +61,13 @@ img.emoji {
   margin: 0 0.05em 0 0.1em;
   vertical-align: -0.1em;
 }
+
+@font-face {
+  font-family: Comme-Regular;
+  src: url("Comme-Regular.ttf");
+}
+
+* {
+  font-family: Comme-Regular;
+}
 </style>

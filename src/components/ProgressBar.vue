@@ -35,6 +35,6 @@ defineProps({ currentValue: Number, maxValue: Number });
   justify-content: center;
   align-items: center;
   z-index: 10;
-  margin-top: -21px;
+  margin-top: -23px;
 }
 </style>
