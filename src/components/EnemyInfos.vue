@@ -25,7 +25,7 @@ watch(game, (newGame) => {
   if (newGame.battle.isBattling === true) {
     action.value = twemojitType("⚔️");
     enemy.value = twemojitText(newGame.battle.enemy.type);
-    health.value = twemojitText("💗 ");
+    health.value = twemojitText("💗");
     healthValue.value = newGame.battle.enemy.health;
     maxHealthValue.value = newGame.battle.enemy.maxHealth;
   } else {
