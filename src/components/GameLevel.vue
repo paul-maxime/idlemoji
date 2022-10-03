@@ -4,20 +4,27 @@ import { ref, watch } from "vue";
 import { updateLevel } from "@/components/game-level.js";
 
 const levelString = ref("");
+const arenaLength = ref(0);
 watch(game, (newGame) => {
-  levelString.value = updateLevel(newGame);
+  const entityMax = game.entities.reduce(
+    (previousValue, currentValue) => Math.max(previousValue, currentValue.position),
+    0
+  );
+  levelString.value = updateLevel(newGame, entityMax);
+  arenaLength.value = entityMax + 1;
 });
 </script>
 
 <template>
-  <div class="game-level">
-    <div v-html="levelString"></div>
+  <div class="game-level-arena">
+    <div class="game-level">
+      <div :class="game.isGameOver ? 'game-level-string-end' : 'game-level-string-start'" v-html="levelString"></div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .game-level {
-  width: 1024px;
   margin: 6px auto;
   border: 1px dashed black;
   background-color: rgb(115, 199, 136);
@@ -25,6 +32,21 @@ watch(game, (newGame) => {
   white-space: pre;
   font-size: 0;
   letter-spacing: 48px;
+}
+
+.game-level-string-start {
+  transition-duration: 0.25s;
+  opacity: 100;
+}
+
+.game-level-string-end {
+  transition-duration: 1.75s;
+  opacity: 0;
+}
+
+.game-level-arena {
+  width: v-bind(arenaLength * 48 + "px");
+  margin: 0 auto;
 }
 </style>
 
