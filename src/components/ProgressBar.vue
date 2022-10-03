@@ -1,10 +1,7 @@
 <script setup>
 import { defineProps } from "vue";
 
-const props = defineProps({ currentValue: Number, maxValue: Number });
-console.log(props.currentValue);
-console.log(props.maxValue);
-console.log((props.currentValue / props.maxValue) * 100);
+defineProps({ currentValue: Number, maxValue: Number });
 </script>
 
 <template>
