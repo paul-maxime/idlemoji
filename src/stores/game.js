@@ -13,6 +13,7 @@ const game = reactive({
   respawnTimer: 0,
   area: 0,
   currentArea: computed(() => areas[game.area]),
+  areaSize: computed(() => _.max(areas[game.area].entities.map((x) => x.position))),
   player: {
     attack: 10,
     attackSpeed: 10,
@@ -108,19 +109,22 @@ const game = reactive({
   handleGameSuccess() {
     if (this.isGameWon) {
       this.respawnTimer -= 1;
-      if (this.respawnTimer === 80) {
+      if (this.respawnTimer === 60) {
         logger.emit("game-won", game.currentRun);
         this.isInterfaceHidden = true;
       }
-      if (this.respawnTimer === 60) {
+      if (this.respawnTimer === 40) {
         this.area += 1;
         if (this.area >= areas.length) {
           this.areas = 0;
         }
         logger.emit("change-area", areas[this.area].name);
       }
-      if (this.respawnTimer <= 0) {
+      if (this.respawnTimer === 20) {
         this.isInterfaceHidden = false;
+        this.initEntities(this.area);
+      }
+      if (this.respawnTimer <= 0) {
         this.isGameWon = false;
         this.respawn();
       }
@@ -128,7 +132,7 @@ const game = reactive({
     }
     if (this.entities.length === 1) {
       this.isGameWon = true;
-      this.respawnTimer = 100;
+      this.respawnTimer = 80;
       return true;
     }
     return false;

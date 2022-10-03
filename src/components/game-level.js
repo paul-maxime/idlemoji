@@ -4,7 +4,7 @@ import twemoji from "twemoji";
 const MAX_DISPLAYED_CELLS = 20;
 
 export function updateLevel(game) {
-  const entityMax = _.max(game.entities.map((x) => x.position));
+  const entityMax = game.areaSize;
   const playerPosition = game.entities[0].position;
 
   const entitiesMapped = new Map();
@@ -30,7 +30,6 @@ export function updateLevel(game) {
     }
   }
 
-  console.log(start, end);
   for (let i = start; i <= end; i += 1) {
     const entity = entitiesMapped.get(i);
     if (game.isGameOver && entity?.type !== "🐉") {
