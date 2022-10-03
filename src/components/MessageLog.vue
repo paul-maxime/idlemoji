@@ -19,7 +19,7 @@ function opacityFromIndex(index) {
 
 const handlers = {
   "game-start": (run) => add(`Simulation ${run} begins. The dragon will fire in 10 seconds.`),
-  "game-over": () => add("Simulation failed. Trying again."),
+  "game-over": () => add("Simulation failed. Restarting."),
   "game-won": (run) => add(`Simulation succeeded after ${run} runs.`),
   "enemy-encountered": (entity) => add(`You encountered ${entity.name}!`),
   "enemy-defeated": (entity) => add(`You defeated ${entity.name} and got ${entity.gold} gold.`),
