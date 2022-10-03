@@ -1,4 +1,3 @@
-import _ from "lodash";
 import twemoji from "twemoji";
 
 const MAX_DISPLAYED_CELLS = 20;

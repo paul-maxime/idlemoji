@@ -46,7 +46,7 @@ const game = reactive({
       description: () =>
         `${game.player.movementSpeed / 10} cell${game.player.movementSpeed >= 20 ? "s" : ""} per second`,
       apply() {
-        game.player.movementSpeed = 5 + this.level * 5;
+        game.player.movementSpeed = 10 + (this.level - 1) * 2;
       },
     },
     {
@@ -122,7 +122,7 @@ const game = reactive({
       }
       if (this.respawnTimer === 20) {
         this.isInterfaceHidden = false;
-        this.initEntities(this.area);
+        this.initEntities();
       }
       if (this.respawnTimer <= 0) {
         this.isGameWon = false;
@@ -162,7 +162,7 @@ const game = reactive({
     this.isGameOver = false;
     this.remainingTime = 100;
     this.battle.isBattling = false;
-    this.initEntities(this.area);
+    this.initEntities();
     logger.emit("game-start", this.currentRun);
   },
   movePlayer() {
@@ -187,7 +187,7 @@ const game = reactive({
       this.battle.enemy = null;
     }
   },
-  initEntities(area) {
+  initEntities() {
     this.entities.splice(0, this.entities.length);
 
     this.entities.push({ type: "⚔", position: 0 }, ..._.cloneDeep(areas[this.area].entities));

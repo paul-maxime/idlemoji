@@ -7,10 +7,7 @@ const levelString = ref("");
 const arenaLength = ref(0);
 const arenaColor = ref("");
 watch(game, () => {
-  const entityMax = game.entities.reduce(
-    (previousValue, currentValue) => Math.max(previousValue, currentValue.position),
-    0
-  );
+  const entityMax = game.areaSize;
   levelString.value = updateLevel(game, entityMax);
   arenaLength.value = Math.min(20, entityMax) + 1;
   arenaColor.value = game.currentArea.color;
