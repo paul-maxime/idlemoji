@@ -41,6 +41,20 @@ usePageTitle();
 body {
   background-color: rgb(230, 255, 255);
 }
+button {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 4px 6px;
+  cursor: pointer;
+}
+button:hover {
+  outline: 2px solid black;
+  border: 1px solid white;
+}
+button:active {
+  outline: 1px solid black;
+}
 img.emoji {
   height: 1em;
   width: 1em;
