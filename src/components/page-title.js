@@ -5,8 +5,10 @@ export function usePageTitle() {
   watch(game, () => {
     if (game.unlocks.has("gold-display")) {
       document.title = `${game.gold} gold • run ${game.currentRun} • lemojid`;
-    } else {
+    } else if (game.currentRun > 1) {
       document.title = `run ${game.currentRun} • lemojid`;
+    } else {
+      document.title = `lemojid`;
     }
   });
 }
