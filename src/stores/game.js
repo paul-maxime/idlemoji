@@ -3,7 +3,7 @@ import unlocks from "./unlocks.js";
 import logger from "./logger.js";
 
 const game = reactive({
-  currentRun: 10,
+  currentRun: 0,
   remainingTime: 100,
   isGameWon: false,
   isGameOver: false,
@@ -18,7 +18,7 @@ const game = reactive({
     currentAttack: 0,
     goldBonus: 0,
   },
-  gold: 1000,
+  gold: 0,
   entities: [],
   battle: {
     isBattling: false,
@@ -214,7 +214,7 @@ const game = reactive({
         name: "the dragon",
         position: 20,
         maxHealth: Math.floor(5000 * (difficulty * 14 + 1)),
-        gold: 1000 * (difficulty + 1),
+        gold: 500 * (difficulty + 1),
       }
     );
     for (const entity of this.entities) {
