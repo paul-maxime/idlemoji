@@ -26,7 +26,7 @@ export default [
   },
   {
     name: "the ocean",
-    fire: "❄️",
+    fire: "🫧",
     color: "#5d87d4",
     entities: [
       { type: "🐟", name: "a small fish", position: 5, health: 50000, gold: 5 },
