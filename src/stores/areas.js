@@ -29,7 +29,9 @@ export default [
     fire: "❄",
     color: "#9db3ae",
     entities: [
-      { type: "🐐", name: "a goat", position: 5, health: 3000, gold: 10 },
+      { type: "🐐", name: "a goat", position: 2, health: 34000, gold: 10 },
+      { type: "🐧", name: "a penguin", position: 4, health: 78000, gold: 20 },
+      { type: "🐻‍❄️", name: "a polar bear", position: 6, health: 120000, gold: 50 },
       { type: "⛄", name: "a snowman", position: 10, health: 160000, gold: 50 },
       { type: "🐉", name: "the frozen dragon", position: 15, health: 180000, gold: 1000 },
     ],
