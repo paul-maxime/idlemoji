@@ -21,7 +21,7 @@ watch(game, (newGame) => {
     healthValue.value = newGame.battle.enemy.health;
     maxHealthValue.value = newGame.battle.enemy.maxHealth;
   } else {
-    enemy.value = "";
+    enemy.value = twemojit("👞");
     health.value = "";
     healthValue.value = 0;
     maxHealthValue.value = 0;
@@ -35,7 +35,7 @@ watch(game, (newGame) => {
     <div class="infos-text">
       <div class="infos-text-container" v-if="enemy">
         <div v-html="enemy"></div>
-        <div class="health">
+        <div class="health" v-if="health">
           <div v-html="health"></div>
           <ProgressBar :current-value="healthValue" :max-value="maxHealthValue" />
         </div>

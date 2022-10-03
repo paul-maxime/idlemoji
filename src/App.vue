@@ -22,8 +22,8 @@ usePageTitle();
     </div>
     <GameLevel v-if="unlocks.has('level-gui') && !game.isInterfaceHidden" />
     <div class="panel" v-if="!game.isInterfaceHidden">
-      <EnemyInfos v-if="unlocks.has('battle-info')" />
       <PlayerStats v-if="unlocks.has('hero-stats')" />
+      <EnemyInfos v-if="unlocks.has('battle-info')" />
     </div>
     <MessageLog />
     <!-- <DebugGameStore /> -->
@@ -42,6 +42,7 @@ body {
   background-color: rgb(230, 255, 255);
 }
 button {
+  color: black;
   background-color: white;
   border: 1px solid black;
   border-radius: 10px;
@@ -56,6 +57,7 @@ button:active {
   outline: 1px solid black;
 }
 button:disabled {
+  color: #707070;
   border: 1px solid #505050;
   outline: none;
   cursor: default;
