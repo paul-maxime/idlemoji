@@ -1,10 +1,7 @@
 import twemoji from "twemoji";
 
-export function updateLevel(game) {
-  const entityMax = game.entities.reduce(
-    (previousValue, currentValue) => Math.max(previousValue, currentValue.position),
-    0
-  );
+export function updateLevel(game, entityMax) {
+
   const entitiesMapped = new Map();
   let levelStringToBuild = "";
   for (const entity of game.entities) {
