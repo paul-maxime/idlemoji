@@ -19,7 +19,7 @@ export default [
       { type: "🐛", name: "a bug", position: 4, health: 1000, gold: 5 },
       { type: "🦧", name: "an orangutan", position: 9, health: 3000, gold: 30 },
       { type: "🦍", name: "a gorilla", position: 14, health: 12000, gold: 50 },
-      { type: "🦏", name: "an rhinoceros", position: 21, health: 35000, gold: 70 },
+      { type: "🦏", name: "a rhinoceros", position: 21, health: 35000, gold: 70 },
       { type: "🦁", name: "a lion", position: 27, health: 70000, gold: 90 },
       { type: "🐉", name: "the greater dragon", position: 35, health: 120000, gold: 1000 },
     ],

@@ -17,7 +17,7 @@ export function updateLevel(game) {
   let end = entityMax;
   if (entityMax > MAX_DISPLAYED_CELLS) {
     if (playerPosition >= 3) {
-      if (playerPosition >= entityMax - MAX_DISPLAYED_CELLS) {
+      if (playerPosition >= entityMax - MAX_DISPLAYED_CELLS + 3) {
         start = entityMax - MAX_DISPLAYED_CELLS;
         end = entityMax;
       } else {
