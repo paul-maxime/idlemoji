@@ -114,10 +114,7 @@ const game = reactive({
         this.isInterfaceHidden = true;
       }
       if (this.respawnTimer === 40) {
-        this.area += 1;
-        if (this.area >= areas.length) {
-          this.areas = 0;
-        }
+        this.area = (this.area + 1) % areas.length;
         logger.emit("change-area", areas[this.area].name);
       }
       if (this.respawnTimer === 20) {
