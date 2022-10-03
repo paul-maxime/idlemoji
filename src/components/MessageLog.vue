@@ -24,7 +24,7 @@ const handlers = {
   "enemy-encountered": (entity) => add(`You encountered ${entity.name}!`),
   "enemy-defeated": (entity) => add(`You defeated ${entity.name} and got ${entity.gold} gold.`),
   "stat-upgraded": (stat) => add(`Upgraded ${stat.name.toLowerCase()} to rank ${stat.level}.`),
-  "increase-difficulty": (difficulty) => add(`Conclusion: foes too weak. Increasing difficulty to ${difficulty + 1}.`),
+  "change-area": (name) => add(`Entering a new area: ${name}`),
 };
 
 logger.register((message, params) => {

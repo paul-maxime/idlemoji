@@ -1,15 +1,18 @@
-import { reactive } from "vue";
+import _ from "lodash";
+import { computed, reactive } from "vue";
 import unlocks from "./unlocks.js";
 import logger from "./logger.js";
+import areas from "./areas.js";
 
 const game = reactive({
-  currentRun: 0,
+  currentRun: 10,
   remainingTime: 100,
   isGameWon: false,
   isGameOver: false,
   isInterfaceHidden: false,
   respawnTimer: 0,
-  difficulty: 0,
+  area: 0,
+  currentArea: computed(() => areas[game.area]),
   player: {
     attack: 10,
     attackSpeed: 10,
@@ -18,7 +21,7 @@ const game = reactive({
     currentAttack: 0,
     goldBonus: 0,
   },
-  gold: 0,
+  gold: 10000,
   entities: [],
   battle: {
     isBattling: false,
@@ -110,8 +113,11 @@ const game = reactive({
         this.isInterfaceHidden = true;
       }
       if (this.respawnTimer === 60) {
-        this.difficulty += 1;
-        logger.emit("increase-difficulty", this.difficulty);
+        this.area += 1;
+        if (this.area >= areas.length) {
+          this.areas = 0;
+        }
+        logger.emit("change-area", areas[this.area].name);
       }
       if (this.respawnTimer <= 0) {
         this.isInterfaceHidden = false;
@@ -152,7 +158,7 @@ const game = reactive({
     this.isGameOver = false;
     this.remainingTime = 100;
     this.battle.isBattling = false;
-    this.initEntities(this.difficulty);
+    this.initEntities(this.area);
     logger.emit("game-start", this.currentRun);
   },
   movePlayer() {
@@ -177,48 +183,13 @@ const game = reactive({
       this.battle.enemy = null;
     }
   },
-  initEntities(difficulty) {
+  initEntities(area) {
     this.entities.splice(0, this.entities.length);
-    this.entities.push(
-      { type: "⚔", position: 0 },
-      {
-        type: "🐁",
-        name: "a mouse",
-        position: 2,
-        maxHealth: Math.floor(25 * (difficulty * 10 + 1)),
-        gold: 5 * (difficulty + 1),
-      },
-      {
-        type: "🐔",
-        name: "a chicken",
-        position: 5,
-        maxHealth: Math.floor(60 * (difficulty * 11 + 1)),
-        gold: 10 * (difficulty + 1),
-      },
-      {
-        type: "🦧",
-        name: "an orangutan",
-        position: 9,
-        maxHealth: Math.floor(200 * (difficulty * 12 + 1)),
-        gold: 20 * (difficulty + 1),
-      },
-      {
-        type: "⛄",
-        name: "a snowman",
-        position: 15,
-        maxHealth: Math.floor(1500 * (difficulty * 13 + 1)),
-        gold: 50 * (difficulty + 1),
-      },
-      {
-        type: "🐉",
-        name: "the dragon",
-        position: 20,
-        maxHealth: Math.floor(5000 * (difficulty * 14 + 1)),
-        gold: 500 * (difficulty + 1),
-      }
-    );
+
+    this.entities.push({ type: "⚔", position: 0 }, ..._.cloneDeep(areas[this.area].entities));
+
     for (const entity of this.entities) {
-      entity.health = entity.maxHealth;
+      entity.maxHealth = entity.health;
     }
   },
 });

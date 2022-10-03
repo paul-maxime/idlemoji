@@ -7,7 +7,6 @@ const FEATURES = [
   { id: "remaining-time", text: "Unlock the remaining time", cost: 20 },
   { id: "hero-stats-details", text: "Unlock the upgrade details", cost: 30 },
   { id: "battle-info", text: "Unlock the battle information", cost: 50 },
-  { id: "spells", text: "Unlock the magic spells", cost: 100 },
 ];
 
 const unlocked = reactive({

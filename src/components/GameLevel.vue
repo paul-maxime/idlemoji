@@ -5,13 +5,15 @@ import { updateLevel } from "@/components/game-level.js";
 
 const levelString = ref("");
 const arenaLength = ref(0);
-watch(game, (newGame) => {
+const arenaColor = ref("");
+watch(game, () => {
   const entityMax = game.entities.reduce(
     (previousValue, currentValue) => Math.max(previousValue, currentValue.position),
     0
   );
-  levelString.value = updateLevel(newGame, entityMax);
-  arenaLength.value = entityMax + 1;
+  levelString.value = updateLevel(game, entityMax);
+  arenaLength.value = Math.min(20, entityMax) + 1;
+  arenaColor.value = game.currentArea.color;
 });
 </script>
 
@@ -27,7 +29,7 @@ watch(game, (newGame) => {
 .game-level {
   margin: 6px auto;
   border: 1px dashed black;
-  background-color: rgb(115, 199, 136);
+  background-color: v-bind(arenaColor);
   font-family: monospace;
   white-space: pre;
   font-size: 0;
