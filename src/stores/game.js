@@ -21,7 +21,7 @@ const game = reactive({
     currentAttack: 0,
     goldBonus: 0,
   },
-  gold: 10000,
+  gold: 0,
   entities: [],
   battle: {
     isBattling: false,
