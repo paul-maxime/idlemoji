@@ -55,6 +55,15 @@ button:hover {
 button:active {
   outline: 1px solid black;
 }
+button:disabled {
+  border: 1px solid #505050;
+  outline: none;
+  cursor: default;
+}
+button:disabled:hover {
+  border: 1px solid #505050;
+  outline: none;
+}
 img.emoji {
   height: 1em;
   width: 1em;
