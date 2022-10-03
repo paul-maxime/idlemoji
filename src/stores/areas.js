@@ -25,6 +25,16 @@ export default [
     ],
   },
   {
+    name: "the mountain",
+    fire: "❄",
+    color: "#9db3ae",
+    entities: [
+      { type: "🐐", name: "a goat", position: 5, health: 3000, gold: 10 },
+      { type: "⛄", name: "a snowman", position: 10, health: 160000, gold: 50 },
+      { type: "🐉", name: "the frozen dragon", position: 15, health: 180000, gold: 1000 },
+    ],
+  },
+  {
     name: "the ocean",
     fire: "🫧",
     color: "#5d87d4",
