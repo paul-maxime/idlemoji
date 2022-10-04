@@ -152,6 +152,8 @@ const game = reactive({
   gameOver() {
     this.isGameOver = true;
     this.respawnTimer = 20;
+    this.player.currentMovement = 0;
+    this.player.currentAttack = 0;
     logger.emit("game-over");
   },
   respawn() {
