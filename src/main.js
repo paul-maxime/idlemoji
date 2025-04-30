@@ -5,7 +5,9 @@ import App from "./App.vue";
 const app = createApp(App);
 
 app.directive("emoji", (el, bindings) => {
-  el.innerHTML = twemoji.parse(bindings.value);
+  el.innerHTML = twemoji.parse(bindings.value, {
+    base: "./twemoji/",
+  });
 });
 
 app.mount("#app");

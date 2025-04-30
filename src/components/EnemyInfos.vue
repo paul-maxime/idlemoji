@@ -7,6 +7,7 @@ import ProgressBar from "./ProgressBar.vue";
 function twemojit(text) {
   return twemoji.parse(text, {
     className: "info-twemoji",
+    base: "./twemoji/",
   });
 }
 

@@ -42,5 +42,8 @@ export function updateLevel(game) {
     }
   }
 
-  return twemoji.parse(levelStringToBuild, { className: "level-emoji" });
+  return twemoji.parse(levelStringToBuild, {
+    className: "level-emoji",
+    base: "./twemoji/",
+  });
 }
